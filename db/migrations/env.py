@@ -2,6 +2,7 @@ from logging.config import fileConfig
 
 from alembic import context
 from alembic.config import Config
+from alembic.script import ScriptDirectory
 from sqlalchemy import create_engine
 
 from db.models import Base
@@ -17,6 +18,20 @@ target_metadata = Base.metadata
 
 def get_db_url():
     return settings.DB_URL
+
+
+def process_revision_directives(context, revision, directives):
+    migration_script = directives[0]
+    head_revision = (
+        ScriptDirectory.from_config(context.config).get_current_head()
+    )
+
+    if head_revision is None:
+        new_rev_id = 1
+    else:
+        last_rev_id = int(head_revision.lstrip('0'))
+        new_rev_id = last_rev_id + 1
+    migration_script.rev_id = '{0:04}'.format(new_rev_id)
 
 
 def run_migrations_offline() -> None:
@@ -35,7 +50,9 @@ def run_migrations_online() -> None:
     connectable = create_engine(get_db_url())
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata
+            connection=connection,
+            target_metadata=target_metadata,
+            process_revision_directives=process_revision_directives
         )
 
         with context.begin_transaction():
