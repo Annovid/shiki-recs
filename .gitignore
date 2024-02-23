@@ -27,5 +27,6 @@ venv/
 dmypy.json
 
 .idea
+logs/
 
 resources/
