@@ -2,7 +2,7 @@ from typing import Any, Optional
 
 import shikimori_api
 
-from utils.models import UserRate, User, Title
+from db.models import UserRate, Title
 from utils.parser import ShikimoriParser
 
 
@@ -34,5 +34,4 @@ class ShikimoriClient:
 
 if __name__ == '__main__':
     client: ShikimoriClient = ShikimoriClient()
-    # print(client.get_user_rates(123))
     print(client.get_user_ids(1, 100))

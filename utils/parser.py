@@ -1,7 +1,7 @@
 import datetime
 from typing import Any
 
-from utils.models import UserRate, User, Title
+from db.models import UserRate, User, Title
 
 
 class ShikimoriParser:
