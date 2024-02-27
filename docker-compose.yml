@@ -2,7 +2,7 @@ version: '3'
 
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:13-alpine
     container_name: shiki_recs_db
     environment:
       POSTGRES_DB: shiki_recs

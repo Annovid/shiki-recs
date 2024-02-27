@@ -22,16 +22,16 @@ def get_db_url():
 
 def process_revision_directives(context, revision, directives):
     migration_script = directives[0]
-    head_revision = (
-        ScriptDirectory.from_config(context.config).get_current_head()
-    )
+    head_revision = ScriptDirectory.from_config(
+        context.config
+    ).get_current_head()
 
     if head_revision is None:
         new_rev_id = 1
     else:
-        last_rev_id = int(head_revision.lstrip('0'))
+        last_rev_id = int(head_revision.lstrip("0"))
         new_rev_id = last_rev_id + 1
-    migration_script.rev_id = '{0:04}'.format(new_rev_id)
+    migration_script.rev_id = "{0:04}".format(new_rev_id)
 
 
 def run_migrations_offline() -> None:
@@ -52,7 +52,7 @@ def run_migrations_online() -> None:
         context.configure(
             connection=connection,
             target_metadata=target_metadata,
-            process_revision_directives=process_revision_directives
+            process_revision_directives=process_revision_directives,
         )
 
         with context.begin_transaction():
