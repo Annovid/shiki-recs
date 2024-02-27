@@ -14,8 +14,10 @@ def upgrade() -> None:
     op.create_table(
         'users',
         sa.Column('id', sa.Integer, primary_key=True),
-        sa.Column('name', sa.String(64), nullable=False),
-        sa.Column('timestamp', sa.DateTime, nullable=True)
+        sa.Column(
+            'is_processed', sa.Boolean, nullable=False, default=True
+        ),
+        sa.Column('process_datetime', sa.DateTime, nullable=True),
     )
 
     op.create_table(
@@ -32,8 +34,13 @@ def upgrade() -> None:
 
     op.create_table(
         'user_rates',
-        sa.Column('user_id', sa.Integer, sa.ForeignKey('users.id'), primary_key=True),
-        sa.Column('title_id', sa.Integer, sa.ForeignKey('titles.id'), primary_key=True),
+        sa.Column(
+            'user_id',
+            sa.Integer,
+            sa.ForeignKey('users.id'),
+            primary_key=True
+        ),
+        sa.Column('title_id', sa.Integer, primary_key=True),
         sa.Column('rate', sa.Integer, nullable=False)
     )
 
