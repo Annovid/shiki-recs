@@ -34,6 +34,6 @@ class ShikimoriParser:
     def parse_user(cls, user: dict[str, Any]):
         return User(
             id=user['id'],
-            name=user['name'],
+            name=user['nickname'],
             timestamp=datetime.datetime.now(),
         )

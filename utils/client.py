@@ -2,7 +2,7 @@ from typing import Any, Optional
 
 import shikimori_api
 
-from db.models import UserRate, Title
+from db.models import UserRate, Title, User
 from utils.parser import ShikimoriParser
 
 
@@ -24,14 +24,20 @@ class ShikimoriClient:
         title: dict[str, Any] = title_op[0]
         return ShikimoriParser.get_title(title)
 
-    def get_user_ids(self, page: int, limit: int) -> list[int]:
+    def get_users(self, page: int, limit: int) -> list[User]:
         # TODO: check all possibilities
         users: list[dict[str, Any]] = self.api.users.GET(
             page=page, limit=limit
         )
-        return [user['id'] for user in users]
+        return [ShikimoriParser.parse_user(user) for user in users]
+
+    def get_user_id(self, user_name: str) -> Optional[int]:
+        users: list[dict[str, Any]] = self.api.users.GET(search=user_name)
+        users_exact: list[dict[str, Any]] = [
+            user for user in users
+            if user['nickname'].lower() == user_name.lower()
+        ]
+        return users_exact[0]['id'] if users_exact else None
 
 
-if __name__ == '__main__':
-    client: ShikimoriClient = ShikimoriClient()
-    print(client.get_user_ids(1, 100))
+print(ShikimoriClient().get_user_id('Annovid'))
