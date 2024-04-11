@@ -12,7 +12,7 @@ db.sqlite3-journal
 
 .ipynb_checkpoints
 
-.env
+resources/.env
 .venv
 env/
 venv/

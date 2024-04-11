@@ -6,7 +6,8 @@ ENV_PATH = os.path.join(os.getcwd(), "resources", ".env")
 
 
 class Settings(BaseSettings):
-    DB_URL: str = ''
+    DB_URL: str = ""
+    DEBUG: bool = False
 
     class Config:
         env_file = ENV_PATH
