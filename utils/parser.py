@@ -23,7 +23,7 @@ class ShikimoriParser:
         return UserRate(
             user_id=user_rate["user_id"],
             title_id=user_rate["target_id"],
-            rate=user_rate["score"],
+            rate=user_rate["score"] if user_rate["score"] != 0 else None,
         )
 
     @classmethod

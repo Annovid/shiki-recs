@@ -35,4 +35,4 @@ class UserRate(Base):
 
     user_id = sa.Column(sa.Integer, sa.ForeignKey("users.id"))
     title_id = sa.Column(sa.Integer)
-    rate = sa.Column(sa.Integer, nullable=False)
+    rate = sa.Column(sa.Integer, nullable=True)
