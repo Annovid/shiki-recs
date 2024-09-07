@@ -37,6 +37,11 @@ curl 'https://shikimori.one/api/user_rates?user_id=1'
 
 ## Работа с базой данных
 
+Перед началом работы надо задать путь до конфига alembic:
+```bash
+export ALEMBIC_CONFIG=$PWD/db/alembic.ini
+```
+
 Создание новой миграции: 
 ```bash
 alembic revision --autogenerate -m 'migration_name'
