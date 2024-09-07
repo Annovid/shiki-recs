@@ -1,6 +1,7 @@
 import datetime
 import logging
 import random
+import time
 
 import sqlalchemy as sa
 from sqlalchemy.exc import PendingRollbackError
@@ -9,26 +10,24 @@ from commands import Command
 from db.engine import SessionFactory
 from db.models import User, UserRate
 from utils.client import ShikimoriClient
-
-DEFAULT_USERS_CNT = 1_450_000
-SCORE_EXACT_USER_CNT: bool = False
+from utils.settings import settings
 
 
 class GetUserRatesCommand(Command):
-    def __init__(self, user_count: int = 1):
+    def __init__(self, users_count: int = 1):
         super().__init__()
-        self.user_count = user_count
+        self.users_count = users_count
 
     def execute(self):
         max_user_id = (
             ShikimoriClient.get_max_user_id()
-            if SCORE_EXACT_USER_CNT
-            else DEFAULT_USERS_CNT
+            if settings.SCORE_EXACT_USER_CNT
+            else settings.DEFAULT_USERS_CNT
         )
         # TODO: найти способ находить пользователей с большим количеством
         #  тайтлов
         user_ids: list[int] = [
-            random.randint(1, max_user_id) for _ in range(self.user_count)
+            random.randint(1, max_user_id) for _ in range(self.users_count)
         ]
         with SessionFactory() as session:
             processed_ids: list[int] = (
@@ -47,6 +46,7 @@ class GetUserRatesCommand(Command):
                 user_id
             )
             self.export_user_rates(user_id, user_rates)
+            time.sleep(settings.SLEEP_TIME)
 
     @staticmethod
     def export_user_rates(user_id: int, user_rates: list[UserRate]):
