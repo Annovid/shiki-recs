@@ -1,3 +1,5 @@
+from typing import NamedTuple
+
 import sqlalchemy as sa
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -6,6 +8,11 @@ from utils.settings import settings
 engine = sa.create_engine(settings.DB_URL)
 
 Base = declarative_base()
+
+
+class Rate(NamedTuple):
+    title_id: int | float
+    rate: float
 
 
 class User(Base):
