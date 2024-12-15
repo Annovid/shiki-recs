@@ -2,10 +2,11 @@ import logging
 
 from commands.get_user_rates import GetUserRatesCommand
 from utils.log import setup_logging
+from utils.settings import settings
 
 
 def main():
-    GetUserRatesCommand(user_count=100).execute()
+    GetUserRatesCommand(users_count=settings.USERS_COUNT).execute()
 
 
 if __name__ == "__main__":
